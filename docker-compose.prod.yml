@@ -1,0 +1,7 @@
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    restart: always
