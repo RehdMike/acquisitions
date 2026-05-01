@@ -1,11 +1,11 @@
-import logger from "#config/logger.js";
-import { createUser, signInUser } from "#services/auth.service.js";
-import { cookies } from "#utils/cookies.js";
-import { formatValidationError } from "#utils/format.js";
-import { jwttoken } from "#utils/jwt.js";
-import { signInSchema, signupSchema } from "#validations/auth.validation.js";
+import logger from '#config/logger.js';
+import { createUser, signInUser } from '#services/auth.service.js';
+import { cookies } from '#utils/cookies.js';
+import { formatValidationError } from '#utils/format.js';
+import { jwttoken } from '#utils/jwt.js';
+import { signInSchema, signupSchema } from '#validations/auth.validation.js';
 
-const createAuthToken = (user) => {
+const createAuthToken = user => {
   return jwttoken.sign({
     id: user.id,
     email: user.email,
@@ -19,7 +19,7 @@ export const signup = async (req, res, next) => {
 
     if (!validationResult.success) {
       return res.status(400).json({
-        error: "Validation failed",
+        error: 'Validation failed',
         details: formatValidationError(validationResult.error),
       });
     }
@@ -29,12 +29,12 @@ export const signup = async (req, res, next) => {
     const user = await createUser({ name, email, password, role });
     const token = createAuthToken(user);
 
-    cookies.set(res, "token", token);
+    cookies.set(res, 'token', token);
 
     logger.info(`User registered successfully: ${email}`);
 
     res.status(201).json({
-      message: "User registered",
+      message: 'User registered',
       user: {
         id: user.id,
         name: user.name,
@@ -43,10 +43,10 @@ export const signup = async (req, res, next) => {
       },
     });
   } catch (e) {
-    logger.error("Signup error", e);
+    logger.error('Signup error', e);
 
-    if (e.message === "User already exists") {
-      return res.status(409).json({ error: "Email already exists" });
+    if (e.message === 'User already exists') {
+      return res.status(409).json({ error: 'Email already exists' });
     }
 
     next(e);
@@ -59,7 +59,7 @@ export const signin = async (req, res, next) => {
 
     if (!validationResult.success) {
       return res.status(400).json({
-        error: "Validation failed",
+        error: 'Validation failed',
         details: formatValidationError(validationResult.error),
       });
     }
@@ -67,19 +67,19 @@ export const signin = async (req, res, next) => {
     const user = await signInUser(validationResult.data);
     const token = createAuthToken(user);
 
-    cookies.set(res, "token", token);
+    cookies.set(res, 'token', token);
 
     logger.info(`User signed in successfully: ${user.email}`);
 
     res.status(200).json({
-      message: "User signed in successfully",
+      message: 'User signed in successfully',
       user,
     });
   } catch (e) {
-    logger.error("Signin error", e);
+    logger.error('Signin error', e);
 
-    if (e.message === "Invalid credentials") {
-      return res.status(401).json({ error: "Invalid email or password" });
+    if (e.message === 'Invalid credentials') {
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     next(e);

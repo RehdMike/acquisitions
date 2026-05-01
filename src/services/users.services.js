@@ -1,7 +1,7 @@
-import { db } from "#config/database.js";
-import logger from "#config/logger.js";
-import { users } from "#models/user.model.js";
-import { eq } from "drizzle-orm";
+import { db } from '#config/database.js';
+import logger from '#config/logger.js';
+import { users } from '#models/user.model.js';
+import { eq } from 'drizzle-orm';
 
 export const getAllUsers = async () => {
   try {
@@ -16,7 +16,7 @@ export const getAllUsers = async () => {
       })
       .from(users);
   } catch (e) {
-    logger.error("Error getting users", e);
+    logger.error('Error getting users', e);
     throw e;
   }
 };
@@ -25,7 +25,7 @@ export async function getUserById(id) {
   const user = await db.select().from(users).where(eq(users.id, id)).limit(1);
 
   if (!user.length) {
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   return user[0];
@@ -39,7 +39,7 @@ export async function updateUserById(id, updates) {
     .limit(1);
 
   if (!existingUser.length) {
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   const [updatedUser] = await db
@@ -59,10 +59,10 @@ export async function deleteUser(id) {
     .limit(1);
 
   if (!existingUser.length) {
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   await db.delete(users).where(eq(users.id, id));
 
-  return { message: "User deleted successfully" };
+  return { message: 'User deleted successfully' };
 }
