@@ -4,6 +4,7 @@
   "type": "module",
   "main": "index.js",
   "imports": {
+    "#src/*": "./src/*",
     "#config/*": "./src/config/*",
     "#controllers/*": "./src/controllers/*",
     "#middleware/*": "./src/middleware/*",
@@ -25,7 +26,8 @@
     "db:studio": "drizzle-kit studio",
     "dev:docker": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
     "prod:docker": "docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build",
-    "docker:stop": "docker compose down"
+    "docker:stop": "docker compose down",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "keywords": [],
   "author": "",
@@ -53,6 +55,8 @@
     "eslint": "^10.0.2",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.4.0",
-    "prettier": "^3.8.1"
+    "jest": "^30.3.0",
+    "prettier": "^3.8.1",
+    "supertest": "^7.2.2"
   }
 }
